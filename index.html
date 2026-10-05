@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pearl & Samuel | Wedding Guest</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            background: #f8f5ef;
+            color: #333;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+
+            padding: 40px 25px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .rings {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .welcome {
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #9b7b4f;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .guest-name {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #9b7b4f;
+        }
+
+        .verified {
+            display: inline-block;
+
+            background: #e8f5e9;
+            color: #2e7d32;
+
+            padding: 8px 18px;
+
+            border-radius: 30px;
+
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        .details {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+
+            padding: 20px 0;
+
+            margin-bottom: 25px;
+        }
+
+        .detail {
+            margin: 15px 0;
+        }
+
+        .label {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+        }
+
+        .value {
+            font-size: 22px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #9b7b4f;
+            color: white;
+
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .error {
+            color: #b3261e;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .loading {
+            font-family: Arial, sans-serif;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div id="content">
+            <p class="loading">Verifying your invitation...</p>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Your Google Apps Script Web App
+        const API_URL =
+    "https://script.google.com/macros/s/AKfycbysjBanunXOVdysEmlVuo1Hc8g6uPUUqML0osm1COOzqOo89XJUJ7SZCXbM5Au0zyzr-w/exec";
+
+
+        // Get guest ID from the URL
+        const params = new URLSearchParams(window.location.search);
+
+        const guestID = params.get("guest");
+
+
+        // Find the page content area
+        const content = document.getElementById("content");
+
+
+        // If there is no guest ID
+        if (!guestID) {
+
+            content.innerHTML = `
+                <div class="error">
+                    <h2>Invitation Not Found</h2>
+                    <p>
+                        Please scan the QR code on your invitation.
+                    </p>
+                </div>
+            `;
+
+        } else {
+
+            // Ask Google Apps Script for the guest
+            fetch(API_URL + "?guest=" + encodeURIComponent(guestID))
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    if (!data.success) {
+
+                        content.innerHTML = `
+                            <div class="error">
+                                <h2>Invitation Not Found</h2>
+
+                                <p>
+                                    We couldn't verify this invitation.
+                                </p>
+                            </div>
+                        `;
+
+                        return;
+                    }
+
+
+                    const guest = data.guest;
+
+
+                    // Display guest information
+                    content.innerHTML = `
+
+                        <div class="rings">
+                            💍
+                        </div>
+
+                        <div class="welcome">
+                            WELCOME TO
+                        </div>
+
+                        <h1>
+                            Pearl & Samuel's Wedding
+                        </h1>
+
+                        <div class="guest-name">
+                            ${guest.name}
+                        </div>
+
+                        <div class="verified">
+                            ✓ Guest Verified
+                        </div>
+
+                        <div class="details">
+
+                            <div class="detail">
+                                <div class="label">
+                                    Number of Seats
+                                </div>
+
+                                <div class="value">
+                                    ${guest.seats}
+                                </div>
+                            </div>
+
+
+                            <div class="detail">
+                                <div class="label">
+                                    Table
+                                </div>
+
+                                <div class="value">
+                                    ${guest.table}
+                                </div>
+                            </div>
+
+
+                            <div class="detail">
+                                <div class="label">
+                                    Guest Of
+                                </div>
+
+                                <div class="value">
+                                    ${guest.side}
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <button onclick="checkIn()">
+                            CHECK IN
+                        </button>
+
+                    `;
+
+                })
+
+                .catch(error => {
+
+                    content.innerHTML = `
+                        <div class="error">
+
+                            <h2>Something went wrong</h2>
+
+                            <p>
+                                Please ask a wedding usher for assistance.
+                            </p>
+
+                        </div>
+                    `;
+
+                    console.error(error);
+
+                });
+
+        }
+
+
+        async function checkIn() {
+
+    const button = document.querySelector("button");
+
+    button.disabled = true;
+    button.textContent = "CHECKING IN...";
+
+    try {
+
+        const response = await fetch(
+            API_URL +
+            "?guest=" +
+            encodeURIComponent(guestID) +
+            "&action=checkin"
+        );
+
+        const data = await response.json();
+
+
+        // Guest was successfully checked in
+        if (data.success) {
+
+            content.innerHTML = `
+
+                <div class="rings">
+                    💍
+                </div>
+
+                <div class="welcome">
+                    WELCOME
+                </div>
+
+                <h1>
+                    Pearl & Samu
+                </h1>
+
+                <div class="guest-name">
+                    ${data.guest.name}
+                </div>
+
+                <div class="verified">
+                    ✓ CHECK-IN SUCCESSFUL
+                </div>
+
+                <div class="details">
+
+                    <div class="detail">
+                        <div class="label">
+                            Seats
+                        </div>
+
+                        <div class="value">
+                            ${data.guest.seats}
+                        </div>
+                    </div>
+
+                    <div class="detail">
+                        <div class="label">
+                            Table
+                        </div>
+
+                        <div class="value">
+                            ${data.guest.table}
+                        </div>
+                    </div>
+
+                    <div class="detail">
+                        <div class="label">
+                            Guest Of
+                        </div>
+
+                        <div class="value">
+                            ${data.guest.side}
+                        </div>
+                    </div>
+
+                </div>
+
+                <p style="font-family: Arial, sans-serif; color: #777;">
+                    Please proceed to your assigned table.
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        // Guest has already checked in
+        if (data.alreadyCheckedIn) {
+
+            content.innerHTML = `
+
+                <div class="rings">
+                    ⚠️
+                </div>
+
+                <h1>
+                    Already Checked In
+                </h1>
+
+                <div class="guest-name">
+                    ${data.guest.name}
+                </div>
+
+                <p style="font-family: Arial, sans-serif; line-height: 1.6;">
+                    This invitation has already been used.
+                </p>
+
+                <div class="details">
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Assigned Table
+                        </div>
+
+                        <div class="value">
+                            ${data.guest.table}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p style="font-family: Arial, sans-serif; color: #777;">
+                    Please speak with a wedding usher if you believe this is an error.
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        // Something else went wrong
+        content.innerHTML = `
+
+            <div class="error">
+
+                <h2>
+                    Check-in Failed
+                </h2>
+
+                <p>
+                    ${data.message || "Something went wrong."}
+                </p>
+
+            </div>
+
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        content.innerHTML = `
+
+            <div class="error">
+
+                <h2>
+                    Connection Error
+                </h2>
+
+                <p>
+                    We couldn't connect to the wedding guest system.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+    </script>
+
+</body>
+</html>
