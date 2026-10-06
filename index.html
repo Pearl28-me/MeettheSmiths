@@ -1,893 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Stella & Daniel | Wedding Guest</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            padding: 20px;
-
-            background:
-                radial-gradient(circle at top, #fffdf8 0%, #f4eee4 55%, #ebe1d2 100%);
-
-            color: #29241f;
-            font-family: Georgia, "Times New Roman", serif;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 470px;
-
-            background: rgba(255, 255, 255, 0.96);
-
-            padding: 45px 28px;
-
-            text-align: center;
-
-            border: 1px solid #dfd1bd;
-
-            box-shadow:
-                0 20px 60px rgba(80, 60, 40, 0.12);
-
-            position: relative;
-        }
-
-        /* Decorative corners */
-
-        .card::before,
-        .card::after {
-            content: "";
-            position: absolute;
-
-            width: 55px;
-            height: 55px;
-
-            border-color: #c4a36a;
-            border-style: solid;
-        }
-
-        .card::before {
-            top: 15px;
-            left: 15px;
-
-            border-width: 1px 0 0 1px;
-        }
-
-        .card::after {
-            bottom: 15px;
-            right: 15px;
-
-            border-width: 0 1px 1px 0;
-        }
-
-        .top-line {
-            font-size: 12px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #9b7a45;
-
-            margin-bottom: 18px;
-        }
-
-        .rings {
-            font-size: 35px;
-            margin-bottom: 12px;
-        }
-
-        .welcome {
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #8e7658;
-
-            margin-bottom: 12px;
-        }
-
-        h1 {
-            font-size: 38px;
-            font-weight: normal;
-            line-height: 1.15;
-
-            margin-bottom: 10px;
-
-            color: #29241f;
-        }
-
-        .ampersand {
-            font-style: italic;
-            color: #b18b50;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: #81776c;
-
-            margin-bottom: 30px;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            margin: 20px 0 28px;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: #ded3c5;
-        }
-
-        .divider-symbol {
-            color: #b18b50;
-            font-size: 14px;
-        }
-
-        .guest-label {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-
-            color: #95887a;
-
-            margin-bottom: 8px;
-        }
-
-        .guest-name {
-            font-size: 30px;
-            color: #8e6c3e;
-
-            margin-bottom: 18px;
-        }
-
-        .verified {
-            display: inline-block;
-
-            padding: 7px 16px;
-
-            border: 1px solid #c9ddca;
-            background: #f3faf3;
-
-            color: #46724a;
-
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            letter-spacing: 1px;
-
-            margin-bottom: 28px;
-        }
-
-        /*
-        TABLE
-        */
-
-        .table-box {
-            background: #f8f2e9;
-
-            border: 1px solid #dfd1bd;
-
-            padding: 24px 15px;
-
-            margin-bottom: 22px;
-        }
-
-        .table-label {
-            font-family: Arial, sans-serif;
-
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-
-            color: #887966;
-
-            margin-bottom: 8px;
-        }
-
-        .table-number {
-            font-size: 58px;
-            line-height: 1;
-
-            color: #8d6937;
-
-            margin-bottom: 10px;
-        }
-
-        .table-note {
-            font-size: 13px;
-            color: #756b61;
-        }
-
-        /*
-        DETAILS
-        */
-
-        .details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            border-top: 1px solid #e4dbcf;
-            border-bottom: 1px solid #e4dbcf;
-
-            margin-bottom: 25px;
-        }
-
-        .detail {
-            padding: 18px 10px;
-        }
-
-        .detail:first-child {
-            border-right: 1px solid #e4dbcf;
-        }
-
-        .label {
-            font-family: Arial, sans-serif;
-
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-
-            color: #999087;
-
-            margin-bottom: 7px;
-        }
-
-        .value {
-            font-size: 19px;
-            color: #39322b;
-        }
-
-        /*
-        CHECK IN
-        */
-
-        button {
-            width: 100%;
-
-            padding: 17px;
-
-            border: none;
-
-            background: #9a7848;
-            color: white;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 13px;
-            font-weight: bold;
-
-            letter-spacing: 2px;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-        button:hover {
-            background: #806137;
-        }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .footer {
-            margin-top: 25px;
-
-            font-size: 12px;
-            font-style: italic;
-
-            color: #8d8175;
-        }
-
-        /*
-        ERROR
-        */
-
-        .error {
-            padding: 20px;
-        }
-
-        .error-icon {
-            font-size: 38px;
-            margin-bottom: 15px;
-        }
-
-        .error h2 {
-            font-size: 25px;
-            font-weight: normal;
-
-            margin-bottom: 12px;
-        }
-
-        .error p {
-            font-family: Arial, sans-serif;
-
-            font-size: 14px;
-            line-height: 1.6;
-
-            color: #777;
-        }
-
-        .loading {
-            font-family: Arial, sans-serif;
-
-            color: #777;
-
-            padding: 40px 10px;
-        }
-
-        /*
-        MOBILE
-        */
-
-        @media (max-width: 420px) {
-
-            body {
-                padding: 12px;
-            }
-
-            .card {
-                padding: 38px 20px;
-            }
-
-            h1 {
-                font-size: 32px;
-            }
-
-            .guest-name {
-                font-size: 26px;
-            }
-
-            .table-number {
-                font-size: 52px;
-            }
-
-        }
-
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Stella & Daniel | Wedding Guest</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top, #fffdf8 0%, #f7f0e3 45%, #eee3d0 100%);
+      color: #3f352b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 253, 248, 0.97);
+      border: 1px solid #c8a96b;
+      padding: 45px 30px;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(80, 60, 30, 0.12);
+      position: relative;
+    }
+
+    .card::before,
+    .card::after {
+      content: "✦";
+      position: absolute;
+      color: #b08a45;
+      font-size: 25px;
+    }
+
+    .card::before {
+      top: 15px;
+      left: 18px;
+    }
+
+    .card::after {
+      bottom: 15px;
+      right: 18px;
+    }
+
+    .small-title {
+      letter-spacing: 4px;
+      font-size: 12px;
+      color: #9b783d;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: normal;
+      line-height: 1.25;
+      color: #40352b;
+      margin-bottom: 10px;
+    }
+
+    .ampersand {
+      color: #b08a45;
+      font-size: 22px;
+      margin: 3px 0;
+    }
+
+    .date {
+      font-size: 15px;
+      letter-spacing: 2px;
+      margin: 20px 0 8px;
+    }
+
+    .venue {
+      font-size: 14px;
+      color: #786858;
+      margin-bottom: 30px;
+    }
+
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: #c8a96b;
+      margin: 0 auto 30px;
+    }
+
+    .welcome {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .instruction {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #76695d;
+      margin-bottom: 25px;
+    }
+
+    .input-label {
+      display: block;
+      text-align: left;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #5b4c3d;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #c8b38c;
+      background: #fffdf8;
+      font-size: 17px;
+      text-align: center;
+      outline: none;
+      font-family: Arial, sans-serif;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      border-color: #a98442;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: #a98442;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+
+    button:hover {
+      background: #8f6e35;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .verified {
+      display: inline-block;
+      padding: 7px 14px;
+      border: 1px solid #b69a63;
+      color: #8b6b34;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
+    .guest-name {
+      font-size: 27px;
+      margin-bottom: 20px;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .detail-box {
+      border: 1px solid #ded2bd;
+      padding: 18px 10px;
+      background: #fffaf0;
+    }
+
+    .detail-label {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: #887866;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+    }
+
+    .detail-value {
+      font-size: 21px;
+      color: #4b3b2c;
+    }
+
+    .table-box {
+      border: 1px solid #c8a96b;
+      padding: 22px;
+      margin-bottom: 20px;
+      background: #fffdf8;
+    }
+
+    .table-number {
+      font-size: 48px;
+      color: #a98442;
+      line-height: 1;
+      margin-top: 7px;
+    }
+
+    .message {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 15px 0;
+      color: #66594e;
+    }
+
+    .success {
+      color: #5c7657;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #9a4b4b;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .checkin-btn {
+      margin-top: 10px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: #9a8b79;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 450px) {
+      .card {
+        padding: 35px 20px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
-    <div class="card">
+  <div class="card">
 
-        <div id="content">
+    <div class="small-title">Welcome to</div>
 
-            <p class="loading">
-                Verifying your invitation...
-            </p>
+    <h1>Stella Richards</h1>
+    <div class="ampersand">&</div>
+    <h1>Daniel Yankson</h1>
 
-        </div>
+    <div class="date">10 • 10 • 2026</div>
+    <div class="venue">2:00 PM · The Underbridge</div>
+
+    <div class="divider"></div>
+
+    <div id="lookupSection">
+
+      <div class="welcome">Find Your Seating Details</div>
+
+      <div class="instruction">
+        Please enter the Guest ID provided with your invitation
+        to view your assigned table and seating information.
+      </div>
+
+      <label class="input-label" for="guestID">
+        Guest ID
+      </label>
+
+      <input
+        type="text"
+        id="guestID"
+        placeholder="Example: W006"
+        autocomplete="off"
+      >
+
+      <button id="lookupButton" onclick="findGuest()">
+        VIEW MY SEATING
+      </button>
+
+      <div id="lookupMessage"></div>
 
     </div>
 
 
-    <script>
+    <div id="result" class="result">
 
-        /*
-        GOOGLE APPS SCRIPT
-        */
+      <div class="verified">
+        ✓ GUEST VERIFIED
+      </div>
 
-        const API_URL =
-            "https://script.google.com/macros/s/AKfycbysjBanunXOVdysEmlVuo1Hc8g6uPUUqML0osm1COOzqOo89XJUJ7SZCXbM5Au0zyzr-w/exec";
+      <div class="guest-name" id="guestName"></div>
 
+      <div class="table-box">
+        <div class="detail-label">Your Assigned Table</div>
+        <div class="table-number" id="guestTable"></div>
+      </div>
 
-        /*
-        GET GUEST ID FROM QR CODE
-        */
+      <div class="details">
 
-        const params =
-            new URLSearchParams(window.location.search);
+        <div class="detail-box">
+          <div class="detail-label">Seats</div>
+          <div class="detail-value" id="guestSeats"></div>
+        </div>
 
-        const guestID =
-            params.get("guest");
+        <div class="detail-box">
+          <div class="detail-label">Guest Of</div>
+          <div class="detail-value" id="guestSide"></div>
+        </div>
 
+      </div>
 
-        const content =
-            document.getElementById("content");
+      <div class="message">
+        Please proceed to your assigned table when you arrive.
+      </div>
 
+      <button
+        class="checkin-btn"
+        id="checkinButton"
+        onclick="checkInGuest()"
+      >
+        CHECK IN
+      </button>
 
-        /*
-        NO GUEST ID
-        */
+      <div id="checkinMessage"></div>
 
-        if (!guestID) {
+    </div>
 
-            content.innerHTML = `
 
-                <div class="error">
+    <div class="footer">
+      STELLA & DANIEL · WEDDING CELEBRATION
+    </div>
 
-                    <div class="error-icon">
-                        💍
-                    </div>
+  </div>
 
-                    <h2>
-                        Invitation Not Found
-                    </h2>
 
-                    <p>
-                        Please scan the QR code
-                        provided with your wedding invitation.
-                    </p>
+<script>
 
-                </div>
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbysjBanunXOVdysEmlVuo1Hc8g6uPUUqML0osm1COOzqOo89XJUJ7SZCXbM5Au0zyzr-w/exec";
 
-            `;
 
-        }
+  let currentGuestID = null;
 
 
-        /*
-        FIND GUEST
-        */
+  async function findGuest() {
 
-        else {
+    const input = document.getElementById("guestID");
+    const button = document.getElementById("lookupButton");
+    const message = document.getElementById("lookupMessage");
 
-            fetch(
-                API_URL +
-                "?guest=" +
-                encodeURIComponent(guestID)
-            )
+    const guestID = input.value.trim().toUpperCase();
 
-            .then(response => response.json())
+    message.innerHTML = "";
 
-            .then(data => {
+    if (!guestID) {
+      message.innerHTML =
+        '<div class="error">Please enter your Guest ID.</div>';
+      return;
+    }
 
-                /*
-                GUEST NOT FOUND
-                */
+    button.disabled = true;
+    button.textContent = "SEARCHING...";
 
-                if (!data.success) {
+    try {
 
-                    content.innerHTML = `
+      const response = await fetch(
+        API_URL + "?guest=" + encodeURIComponent(guestID)
+      );
 
-                        <div class="error">
+      const data = await response.json();
 
-                            <div class="error-icon">
-                                ⚠️
-                            </div>
+      if (!data.success) {
 
-                            <h2>
-                                Invitation Not Found
-                            </h2>
+        message.innerHTML =
+          '<div class="error">' +
+          (data.message || "Guest not found.") +
+          "</div>";
 
-                            <p>
-                                We couldn't verify this invitation.
-                                Please speak with a wedding usher.
-                            </p>
+        button.disabled = false;
+        button.textContent = "VIEW MY SEATING";
 
-                        </div>
+        return;
+      }
 
-                    `;
 
-                    return;
-                }
+      currentGuestID = guestID;
 
+      document.getElementById("guestName").textContent =
+        data.guest.name;
 
-                /*
-                GUEST FOUND
-                */
+      document.getElementById("guestSeats").textContent =
+        data.guest.seats;
 
-                const guest = data.guest;
+      document.getElementById("guestSide").textContent =
+        data.guest.side;
 
+      document.getElementById("guestTable").textContent =
+        data.guest.table;
 
-                content.innerHTML = `
 
-                    <div class="top-line">
-                        Together with our families
-                    </div>
+      document.getElementById("lookupSection").style.display =
+        "none";
 
+      document.getElementById("result").classList.add("show");
 
-                    <div class="rings">
-                        ♡
-                    </div>
 
+      if (
+        String(data.guest.checkedIn)
+          .trim()
+          .toLowerCase() === "yes"
+      ) {
 
-                    <div class="welcome">
-                        Welcome to
-                    </div>
+        document.getElementById("checkinButton").disabled = true;
 
+        document.getElementById("checkinButton").textContent =
+          "ALREADY CHECKED IN";
 
-                    <h1>
-                        Stella
-                        <span class="ampersand">&</span>
-                        Daniel
-                    </h1>
+        document.getElementById("checkinMessage").innerHTML =
+          '<div class="success">' +
+          "This guest has already checked in." +
+          "</div>";
+      }
 
+    } catch (error) {
 
-                    <div class="subtitle">
-                        WEDDING CELEBRATION
-                    </div>
+      message.innerHTML =
+        '<div class="error">' +
+        "Unable to connect to the guest system. Please try again." +
+        "</div>";
 
+    }
 
-                    <div class="divider">
+    button.disabled = false;
 
-                        <div class="divider-line"></div>
+    if (button.textContent === "SEARCHING...") {
+      button.textContent = "VIEW MY SEATING";
+    }
+  }
 
-                        <div class="divider-symbol">
-                            ✦
-                        </div>
 
-                        <div class="divider-line"></div>
+  async function checkInGuest() {
 
-                    </div>
+    if (!currentGuestID) {
+      return;
+    }
 
+    const button =
+      document.getElementById("checkinButton");
 
-                    <div class="guest-label">
-                        This invitation is reserved for
-                    </div>
+    const message =
+      document.getElementById("checkinMessage");
 
+    button.disabled = true;
+    button.textContent = "CHECKING IN...";
 
-                    <div class="guest-name">
-                        ${guest.name}
-                    </div>
+    message.innerHTML = "";
 
+    try {
 
-                    <div class="verified">
-                        ✓ INVITATION VERIFIED
-                    </div>
+      const response = await fetch(
+        API_URL +
+        "?guest=" +
+        encodeURIComponent(currentGuestID) +
+        "&action=checkin"
+      );
 
+      const data = await response.json();
 
-                    <div class="table-box">
 
-                        <div class="table-label">
-                            Your Assigned Table
-                        </div>
+      if (data.alreadyCheckedIn) {
 
-                        <div class="table-number">
-                            ${guest.table}
-                        </div>
+        button.textContent = "ALREADY CHECKED IN";
 
-                        <div class="table-note">
-                            Please proceed to Table ${guest.table}
-                        </div>
+        message.innerHTML =
+          '<div class="success">' +
+          "This guest has already checked in." +
+          "</div>";
 
-                    </div>
+        return;
+      }
 
 
-                    <div class="details">
+      if (data.success) {
 
-                        <div class="detail">
+        button.textContent = "CHECKED IN ✓";
 
-                            <div class="label">
-                                Seats
-                            </div>
+        message.innerHTML =
+          '<div class="success">' +
+          "Guest checked in successfully." +
+          "</div>";
 
-                            <div class="value">
-                                ${guest.seats}
-                            </div>
+        return;
+      }
 
-                        </div>
 
+      button.disabled = false;
+      button.textContent = "CHECK IN";
 
-                        <div class="detail">
+      message.innerHTML =
+        '<div class="error">' +
+        (data.message || "Check-in failed.") +
+        "</div>";
 
-                            <div class="label">
-                                Guest Of
-                            </div>
+    } catch (error) {
 
-                            <div class="value">
-                                ${guest.side}
-                            </div>
+      button.disabled = false;
+      button.textContent = "CHECK IN";
 
-                        </div>
+      message.innerHTML =
+        '<div class="error">' +
+        "Unable to complete check-in. Please try again." +
+        "</div>";
+    }
+  }
 
-                    </div>
-
-
-                    <button onclick="checkIn()">
-                        CHECK IN
-                    </button>
-
-
-                    <div class="footer">
-                        We are delighted to celebrate
-                        this special day with you.
-                    </div>
-
-                `;
-
-            })
-
-
-            .catch(error => {
-
-                console.error(error);
-
-                content.innerHTML = `
-
-                    <div class="error">
-
-                        <div class="error-icon">
-                            ⚠️
-                        </div>
-
-                        <h2>
-                            Connection Error
-                        </h2>
-
-                        <p>
-                            We couldn't connect to the
-                            wedding guest system.
-                            Please ask a wedding usher for assistance.
-                        </p>
-
-                    </div>
-
-                `;
-
-            });
-
-        }
-
-
-
-        /*
-        CHECK-IN FUNCTION
-        */
-
-        async function checkIn() {
-
-            const button =
-                document.querySelector("button");
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "CHECKING IN...";
-
-
-            try {
-
-                const response = await fetch(
-
-                    API_URL +
-                    "?guest=" +
-                    encodeURIComponent(guestID) +
-                    "&action=checkin"
-
-                );
-
-
-                const data =
-                    await response.json();
-
-
-                /*
-                SUCCESS
-                */
-
-                if (data.success) {
-
-                    content.innerHTML = `
-
-                        <div class="top-line">
-                            Welcome
-                        </div>
-
-
-                        <div class="rings">
-                            ♡
-                        </div>
-
-
-                        <div class="welcome">
-                            Check-in complete
-                        </div>
-
-
-                        <h1>
-                            Stella
-                            <span class="ampersand">&</span>
-                            Daniel
-                        </h1>
-
-
-                        <div class="guest-name">
-                            ${data.guest.name}
-                        </div>
-
-
-                        <div class="verified">
-                            ✓ CHECK-IN SUCCESSFUL
-                        </div>
-
-
-                        <div class="table-box">
-
-                            <div class="table-label">
-                                Your Assigned Table
-                            </div>
-
-                            <div class="table-number">
-                                ${data.guest.table}
-                            </div>
-
-                            <div class="table-note">
-                                Please proceed to your table.
-                            </div>
-
-                        </div>
-
-
-                        <div class="details">
-
-                            <div class="detail">
-
-                                <div class="label">
-                                    Seats
-                                </div>
-
-                                <div class="value">
-                                    ${data.guest.seats}
-                                </div>
-
-                            </div>
-
-
-                            <div class="detail">
-
-                                <div class="label">
-                                    Guest Of
-                                </div>
-
-                                <div class="value">
-                                    ${data.guest.side}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="footer">
-                            Thank you for celebrating
-                            with us. ♡
-                        </div>
-
-                    `;
-
-                    return;
-
-                }
-
-
-                /*
-                ALREADY CHECKED IN
-                */
-
-                if (data.alreadyCheckedIn) {
-
-                    content.innerHTML = `
-
-                        <div class="error">
-
-                            <div class="error-icon">
-                                ✓
-                            </div>
-
-
-                            <h2>
-                                Already Checked In
-                            </h2>
-
-
-                            <div class="guest-name">
-                                ${data.guest.name}
-                            </div>
-
-
-                            <p>
-                                This invitation has already
-                                been checked in.
-                            </p>
-
-                            <br>
-
-                            <p>
-                                Assigned Table:
-                                <strong>
-                                    ${data.guest.table}
-                                </strong>
-                            </p>
-
-                            <br>
-
-                            <p>
-                                If you believe this is an error,
-                                please speak with a wedding usher.
-                            </p>
-
-                        </div>
-
-                    `;
-
-                    return;
-
-                }
-
-
-                /*
-                OTHER ERROR
-                */
-
-                content.innerHTML = `
-
-                    <div class="error">
-
-                        <div class="error-icon">
-                            ⚠️
-                        </div>
-
-                        <h2>
-                            Check-in Failed
-                        </h2>
-
-                        <p>
-                            ${data.message ||
-                            "Something went wrong."}
-                        </p>
-
-                    </div>
-
-                `;
-
-            }
-
-
-            catch (error) {
-
-                console.error(error);
-
-                content.innerHTML = `
-
-                    <div class="error">
-
-                        <div class="error-icon">
-                            ⚠️
-                        </div>
-
-                        <h2>
-                            Connection Error
-                        </h2>
-
-                        <p>
-                            We couldn't connect to
-                            the wedding guest system.
-                        </p>
-
-                    </div>
-
-                `;
-
-            }
-
-        }
-
-    </script>
+</script>
 
 </body>
-
 </html>
