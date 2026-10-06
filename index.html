@@ -293,24 +293,22 @@
         Please enter the Guest ID provided with your invitation
         to view your assigned table and seating information.
       </div>
-
-      <label class="input-label" for="guestID">
-        Full Name
+      
+      <label class="input-label" for="guestNameInput">
+      Full Name
       </label>
+
       <input
         type="text"
-        id="guestID"
+        id="guestNameInput"
         placeholder="Enter your full name"
-        autocomplete="off"
       >
 
-      <button id="lookupButton" onclick="findGuest()">
-        VIEW MY SEATING
-      </button>
+    <button id="lookupButton" onclick="findGuest()">
+      VIEW MY SEATING
+    </button>
 
-      <div id="lookupMessage"></div>
-
-    </div>
+<div id="lookupMessage"></div>
 
 
     <div id="result" class="result">
@@ -366,184 +364,214 @@
 
 <script>
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbysjBanunXOVdysEmlVuo1Hc8g6uPUUqML0osm1COOzqOo89XJUJ7SZCXbM5Au0zyzr-w/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbwXq_vuRfm8GJZkWeAzIQ0rGZDtdDiwstpPbF6H9bUm_QqEcFGsEjDzeF7ge3RP0HB--A/exec";
+
+let currentGuestName = null;
 
 
-  let currentGuestID = null;
+async function findGuest() {
 
+    const input =
+        document.getElementById("guestNameInput");
 
-  async function findGuest() {
+    const button =
+        document.getElementById("lookupButton");
 
-    const input = document.getElementById("guestID");
-    const button = document.getElementById("lookupButton");
-    const message = document.getElementById("lookupMessage");
+    const message =
+        document.getElementById("lookupMessage");
 
-    const guestID = input.value.trim().toUpperCase();
+    const guestName =
+        input.value.trim();
 
     message.innerHTML = "";
 
-    if (!guestID) {
-      message.innerHTML =
-        '<div class="error">Please enter your Guest ID.</div>';
-      return;
+    if (!guestName) {
+
+        message.innerHTML =
+            '<div class="error">Please enter your full name.</div>';
+
+        return;
     }
 
     button.disabled = true;
     button.textContent = "SEARCHING...";
 
+
     try {
 
-      const response = await fetch(
-        API_URL + "?guest=" + encodeURIComponent(guestID)
-      );
+        const response = await fetch(
+            API_URL +
+            "?guest=" +
+            encodeURIComponent(guestName)
+        );
 
-      const data = await response.json();
-
-      if (!data.success) {
-
-        message.innerHTML =
-          '<div class="error">' +
-          (data.message || "Guest not found.") +
-          "</div>";
-
-        button.disabled = false;
-        button.textContent = "VIEW MY SEATING";
-
-        return;
-      }
+        const data = await response.json();
 
 
-      currentGuestID = guestID;
+        if (!data.success) {
 
-      document.getElementById("guestName").textContent =
-        data.guest.name;
+            message.innerHTML =
+                '<div class="error">' +
+                (data.message || "Guest not found.") +
+                "</div>";
 
-      document.getElementById("guestSeats").textContent =
-        data.guest.seats;
+            button.disabled = false;
+            button.textContent = "VIEW MY SEATING";
 
-      document.getElementById("guestSide").textContent =
-        data.guest.side;
-
-      document.getElementById("guestTable").textContent =
-        data.guest.table;
-
-
-      document.getElementById("lookupSection").style.display =
-        "none";
-
-      document.getElementById("result").classList.add("show");
+            return;
+        }
 
 
-      if (
-        String(data.guest.checkedIn)
-          .trim()
-          .toLowerCase() === "yes"
-      ) {
+        currentGuestName =
+            data.guest.name;
 
-        document.getElementById("checkinButton").disabled = true;
 
-        document.getElementById("checkinButton").textContent =
-          "ALREADY CHECKED IN";
+        document.getElementById("guestName").textContent =
+            data.guest.name;
 
-        document.getElementById("checkinMessage").innerHTML =
-          '<div class="success">' +
-          "This guest has already checked in." +
-          "</div>";
-      }
+        document.getElementById("guestSeats").textContent =
+            data.guest.seats;
+
+        document.getElementById("guestSide").textContent =
+            data.guest.side;
+
+        document.getElementById("guestTable").textContent =
+            data.guest.table;
+
+
+        document.getElementById("lookupSection").style.display =
+            "none";
+
+        document.getElementById("result").classList.add("show");
+
+
+        if (
+            String(data.guest.checkedIn)
+                .trim()
+                .toLowerCase() === "yes"
+        ) {
+
+            document.getElementById("checkinButton").disabled =
+                true;
+
+            document.getElementById("checkinButton").textContent =
+                "ALREADY CHECKED IN";
+
+            document.getElementById("checkinMessage").innerHTML =
+                '<div class="success">' +
+                "This guest has already checked in." +
+                "</div>";
+        }
+
 
     } catch (error) {
 
-      message.innerHTML =
-        '<div class="error">' +
-        "Unable to connect to the guest system. Please try again." +
-        "</div>";
-
+        message.innerHTML =
+            '<div class="error">' +
+            "Unable to connect to the guest system. Please try again." +
+            "</div>";
     }
+
 
     button.disabled = false;
 
     if (button.textContent === "SEARCHING...") {
-      button.textContent = "VIEW MY SEATING";
+
+        button.textContent =
+            "VIEW MY SEATING";
     }
-  }
+}
 
 
-  async function checkInGuest() {
 
-    if (!currentGuestID) {
-      return;
+async function checkInGuest() {
+
+    if (!currentGuestName) {
+        return;
     }
+
 
     const button =
-      document.getElementById("checkinButton");
+        document.getElementById("checkinButton");
 
     const message =
-      document.getElementById("checkinMessage");
+        document.getElementById("checkinMessage");
+
 
     button.disabled = true;
     button.textContent = "CHECKING IN...";
 
     message.innerHTML = "";
 
+
     try {
 
-      const response = await fetch(
-        API_URL +
-        "?guest=" +
-        encodeURIComponent(currentGuestID) +
-        "&action=checkin"
-      );
+        const response = await fetch(
 
-      const data = await response.json();
+            API_URL +
+            "?guest=" +
+            encodeURIComponent(currentGuestName) +
+            "&action=checkin"
+
+        );
+
+        const data =
+            await response.json();
 
 
-      if (data.alreadyCheckedIn) {
+        if (data.alreadyCheckedIn) {
 
-        button.textContent = "ALREADY CHECKED IN";
+            button.textContent =
+                "ALREADY CHECKED IN";
+
+            message.innerHTML =
+                '<div class="success">' +
+                "This guest has already checked in." +
+                "</div>";
+
+            return;
+        }
+
+
+        if (data.success) {
+
+            button.textContent =
+                "CHECKED IN ✓";
+
+            message.innerHTML =
+                '<div class="success">' +
+                "Guest checked in successfully." +
+                "</div>";
+
+            return;
+        }
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "CHECK IN";
 
         message.innerHTML =
-          '<div class="success">' +
-          "This guest has already checked in." +
-          "</div>";
+            '<div class="error">' +
+            (data.message || "Check-in failed.") +
+            "</div>";
 
-        return;
-      }
-
-
-      if (data.success) {
-
-        button.textContent = "CHECKED IN ✓";
-
-        message.innerHTML =
-          '<div class="success">' +
-          "Guest checked in successfully." +
-          "</div>";
-
-        return;
-      }
-
-
-      button.disabled = false;
-      button.textContent = "CHECK IN";
-
-      message.innerHTML =
-        '<div class="error">' +
-        (data.message || "Check-in failed.") +
-        "</div>";
 
     } catch (error) {
 
-      button.disabled = false;
-      button.textContent = "CHECK IN";
+        button.disabled = false;
 
-      message.innerHTML =
-        '<div class="error">' +
-        "Unable to complete check-in. Please try again." +
-        "</div>";
+        button.textContent =
+            "CHECK IN";
+
+        message.innerHTML =
+            '<div class="error">' +
+            "Unable to complete check-in. Please try again." +
+            "</div>";
     }
-  }
-
+}
 </script>
 
 </body>
